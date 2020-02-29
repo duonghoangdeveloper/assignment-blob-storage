@@ -1,0 +1,3 @@
+Modifying this file will trigger a restart of the app container.
+
+The last modification Kudu made to this file was at 2020-02-29T00:27:31.7713806+00:00, for the following reason: App deployment.
