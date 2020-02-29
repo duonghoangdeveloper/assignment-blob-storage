@@ -1,4 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import * as azure from './azure-storage.blob.min'; // var azure = require('./azure-storage.blob.js')
+
+const blobUri = 'https://prc391.blob.core.windows.net';
+const SAS = "?sv=2019-02-02&ss=b&srt=sco&sp=rwdlac&se=2020-03-01T03:13:12Z&st=2020-02-29T19:13:12Z&spr=https&sig=lSTcz3vfEj0dwS9QKN9q1huTOQ39YdrIPhMg7VqG81Y%3D";
+const blobService = azure.createBlobServiceWithSas(blobUri, SAS);
 
 function App() {
   const [file, setFile] = useState(null);
@@ -10,8 +15,8 @@ function App() {
   }
 
   function getBlobs() {
-    if (window.blobService) {
-      window.blobService.listBlobsSegmented('images', null, function(
+    if (blobService) {
+      blobService.listBlobsSegmented('images', null, function(
         error,
         results
       ) {
@@ -46,9 +51,9 @@ function App() {
 
     const customBlockSize =
       file.size > 1024 * 1024 * 32 ? 1024 * 1024 * 4 : 1024 * 512;
-    window.blobService.singleBlobPutThresholdInBytes = customBlockSize;
+    blobService.singleBlobPutThresholdInBytes = customBlockSize;
 
-    window.blobService.createBlockBlobFromBrowserFile(
+    blobService.createBlockBlobFromBrowserFile(
       'images',
       file.name,
       file,
@@ -65,7 +70,7 @@ function App() {
 
   function handleDelete(blobName) {
     return function() {
-      window.blobService.deleteBlobIfExists('images', blobName, function(
+      blobService.deleteBlobIfExists('images', blobName, function(
         error,
         result
       ) {
@@ -97,12 +102,12 @@ function App() {
       </button>
       <br />
       {blobs.map((image, i) => (
-        <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+        <div key={i} style={{ display: 'flex', alignItems: 'flex-start' }}>
           <img
             key={i}
             alt={i}
             style={{ width: 300, display: 'block' }}
-            src={`${window.blobUri}/images/${image.name}`}
+            src={`${blobUri}/images/${image.name}`}
           />
           <button type="button" onClick={handleDelete(image.name)}>
             Delete

@@ -39,13 +39,5 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-    <script src="azure-storage.blob.min.js"></script>
-    <script>
-      var blobUri = "https://prc391.blob.core.windows.net";
-      var blobService = AzureStorage.Blob.createBlobServiceWithSas(
-        blobUri,
-        "?sv=2019-02-02&ss=b&srt=sco&sp=rwdlac&se=2020-02-29T06:09:51Z&st=2020-02-28T22:09:51Z&spr=https&sig=EtLVPOOiVZpsZTecWSQLu0VAUY3tUsKu1UTJwnoDYDU%3D"
-      );
-    </script>
   </body>
 </html>
